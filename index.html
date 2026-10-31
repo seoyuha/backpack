@@ -1530,21 +1530,20 @@ function joinRoom(room){
 }
 
 /* ================= 대기실 (학생) ================= */
-const WS=1600/1536;const WQ=(x,y,w,h)=>`left:${x*WS}px;top:${y*WS}px;width:${w*WS}px;height:${h*WS}px`;
+const WS=1600/1536,WSY=900/735;const WQ=(x,y,w,h)=>`left:${x*WS}px;top:${y*WSY}px;width:${w*WS}px;height:${h*WSY}px`;
 const EMOS=[['😀','Hello!','안녕!'],['👍','I\'m ready!','준비됐어요!'],['💪','Let\'s go!','가자!'],['🍀','Good luck!','행운을 빌어!'],['🤝','Nice to meet you!','만나서 반가워!'],['🔥','You can do it!','넌 할 수 있어!'],['😊','Thank you!','고마워!'],['🎉','Great job!','잘했어!']];
 function showWaiting(){
   closeModal();setPaused(false);S.screen='waiting';ME.joined=Date.now();S.mode='single';S.players=null;ME.ready=false;
   if(!ME.room)joinRoom(LS.get('ebb_room_join','')||teacherRoom());
-  scr.innerHTML=`<div class="bgfull" style="background:url(${A.wait_floor}) center bottom/100% 182px no-repeat,#3a2414"></div>
-  <div class="abs" style="left:0;top:0;width:1600px;height:766px;background:url(${A.wait_bg}) 0 0/100% 100%"></div>
+  scr.innerHTML=`<div class="bgfull" style="background:#3a2414"></div>
+  <div class="abs" style="left:0;top:0;width:1600px;height:900px;background:url(${A.wait_bg}) 0 0/100% 100%"></div>
   <div id="wSlots"></div>
   <div class="abs parch" id="wRoom" style="${WQ(1196,166,314,436)};padding:8px 12px;border-radius:0 0 12px 12px"></div>
   <div class="hot" id="wCopy" style="${WQ(1403,128,110,34)}"></div>
   <div class="hot" id="wHow" style="${WQ(1102,12,80,82)}"></div><div class="hot" id="wRank" style="${WQ(1208,12,82,82)}"></div><div class="hot" id="wDex" style="${WQ(1318,12,82,82)}"></div><div class="hot" id="wLobby" style="${WQ(1427,12,82,82)}"></div>
   <div class="hot" id="wChar" style="${WQ(92,618,118,98)}"></div><div class="hot" id="wBag" style="${WQ(226,622,118,94)}"></div><div class="hot" id="wEmo" style="${WQ(358,630,114,86)}"></div>
-  <div class="hot" id="wStart" style="${WQ(494,614,374,110)};border-radius:28px"></div><div id="wStartTag" class="abs" style="left:${494*WS}px;width:${374*WS}px;top:${580*WS}px;text-align:center;pointer-events:none"></div>
-  <div class="abs" id="wCodeTag" style="${WQ(884,628,178,92)};border-radius:14px;background:linear-gradient(#24418a,#0f2050);border:3px solid #ecc469;box-shadow:0 0 0 2px #6d4b12,0 6px 10px rgba(0,0,0,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff3cf;cursor:pointer"><div style="font-size:15px;line-height:1">🏫 우리 방 코드</div><div class="hd" style="font-size:40px;line-height:1.05;color:#ffd84a;letter-spacing:4px">${esc(ME.room||'-')}</div></div><div class="hot" id="wSet" style="${WQ(1068,644,156,66)}"></div>
-  <div id="wInfo" class="abs" style="left:16px;right:16px;top:778px;height:110px"></div>`;
+  <div class="hot" id="wStart" style="${WQ(494,614,374,110)};border-radius:28px"></div><div id="wStartTag" class="abs" style="left:${494*WS}px;width:${374*WS}px;top:${580*WSY}px;text-align:center;pointer-events:none"></div>
+  <div class="abs" id="wCodeTag" style="${WQ(884,628,178,92)};border-radius:14px;background:linear-gradient(#24418a,#0f2050);border:3px solid #ecc469;box-shadow:0 0 0 2px #6d4b12,0 6px 10px rgba(0,0,0,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff3cf;cursor:pointer"><div style="font-size:15px;line-height:1">🏫 우리 방 코드</div><div class="hd" style="font-size:40px;line-height:1.05;color:#ffd84a;letter-spacing:4px">${esc(ME.room||'-')}</div></div><div class="hot" id="wSet" style="${WQ(1068,644,156,66)}"></div>`;
   const on=(id,f)=>{$('#'+id).onclick=()=>{snd('tap');f();};};
   on('wHow',showHowto);on('wRank',showRanking);on('wDex',()=>{Sync.unwatch();ME.room=null;showDex();});on('wLobby',()=>{Sync.unwatch();ME.room=null;ME.state=null;showTitle();});
   on('wChar',()=>showStudentSelect());on('wBag',showBagPreview);on('wEmo',showEmoPicker);on('wSet',showStudentSettings);
@@ -1564,17 +1563,17 @@ function drawWaitingPlayers(){
   const box=$('#wSlots');if(!box)return;const all=waitList();const me=Sync.pid;const teams=(ME.cfg&&ME.cfg.teams)||{};
   const NUMC=['#d83a2e','#2f6ee0','#2a9a3a','#e3a21e','#7b3fd1'];
   let h='';
-  for(let i=0;i<5;i++){const x=(30+i*201)*WS,y=228*WS,w=190*WS;const e=all[i];
-    if(!e){h+=`<div class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:${352*WS}px;border-radius:16px;background:linear-gradient(#3a2414,#22140a);border:3px dashed #ecc469;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff3cf;font-size:22px;text-align:center"><div style="font-size:60px;line-height:1">＋</div>친구를<br>기다려요</div>`;continue;}
+  for(let i=0;i<5;i++){const x=(30+i*201)*WS,y=228*WSY,w=190*WS;const e=all[i];
+    if(!e){h+=`<div class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:${352*WSY}px;border-radius:16px;background:linear-gradient(#3a2414,#22140a);border:3px dashed #ecc469;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff3cf;font-size:22px;text-align:center"><div style="font-size:60px;line-height:1">＋</div>친구를<br>기다려요</div>`;continue;}
     const [id,p]=e;const cls=CLASSES[p.cls]?p.cls:'warrior';const isMe=id===me;const ready=p.ready||p.state==='playing'||p.state==='done';
     const stText=p.state==='playing'?`게임 중 · ${p.round||1}R`:p.state==='done'?'게임 완료':ready?'준비 완료':'준비 중';
     const emoOn=p.emo&&Date.now()-(p.emoAt||0)<12000;const em=EMOS.find(x=>x[1]===p.emo);
-    h+=`<div class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:${350*WS}px">
-      <div style="position:absolute;left:0;right:0;top:0;height:${272*WS}px;border-radius:16px 16px 0 0;background:radial-gradient(circle at 50% 38%,${CLS_BG[cls][0]},${CLS_BG[cls][1]});border:3px solid ${isMe?'#fff7c2':'#ecc469'};box-shadow:${isMe?'0 0 0 3px #ffd84a,0 0 24px 8px rgba(255,214,74,.7)':'0 0 0 2px #6d4b12'};overflow:hidden">
+    h+=`<div class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:${350*WSY}px">
+      <div style="position:absolute;left:0;right:0;top:0;height:${272*WSY}px;border-radius:16px 16px 0 0;background:radial-gradient(circle at 50% 38%,${CLS_BG[cls][0]},${CLS_BG[cls][1]});border:3px solid ${isMe?'#fff7c2':'#ecc469'};box-shadow:${isMe?'0 0 0 3px #ffd84a,0 0 24px 8px rgba(255,214,74,.7)':'0 0 0 2px #6d4b12'};overflow:hidden">
         <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.3),transparent 50%)"></div>
         <img src="${charImg(cls)}" style="position:absolute;left:6px;top:8px;width:calc(100% - 12px);height:calc(100% - 10px);object-fit:contain;object-position:50% 100%;filter:drop-shadow(0 8px 6px rgba(0,0,0,.45));animation:idle ${1.4+i*.15}s ease-in-out infinite alternate">
         ${teams[id]?`<div style="position:absolute;right:6px;top:6px;background:${teams[id]==='A'?'#d83a2e':teams[id]==='B'?'#2f6ee0':teams[id]==='C'?'#2a9a3a':'#7b3fd1'};color:#fff;border:2px solid #fff;border-radius:8px;padding:0 8px;font-size:16px">팀 ${teams[id]}</div>`:''}</div>
-      <div style="position:absolute;left:-4px;right:-4px;top:${268*WS}px;height:${78*WS}px;border-radius:12px;background:linear-gradient(#1b2f63,#0c1838);border:3px solid #c9a24e;box-shadow:0 0 0 2px #4a3212,0 6px 10px rgba(0,0,0,.5)">
+      <div style="position:absolute;left:-4px;right:-4px;top:${268*WSY}px;height:${78*WSY}px;border-radius:12px;background:linear-gradient(#1b2f63,#0c1838);border:3px solid #c9a24e;box-shadow:0 0 0 2px #4a3212,0 6px 10px rgba(0,0,0,.5)">
         <div style="position:absolute;left:8px;top:7px;width:34px;height:34px;border-radius:9px;background:linear-gradient(${NUMC[i]},#000 160%);border:2px solid #f0c967;color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center">${i+1}</div>
         <div style="position:absolute;left:48px;right:6px;top:4px;color:#fff;font-size:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.name||'?')}${isMe?' <span style="color:#ffd84a;font-size:16px">(나)</span>':''}</div>
         <div style="position:absolute;left:48px;top:40px;font-size:16px;color:${ready?'#9dff8a':'#c9d3ee'}">${ready?'✅':'⚪'} ${stText}</div></div>
@@ -1588,10 +1587,10 @@ function drawRoomPanel(){
   const row=(k,v)=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px"><span style="width:72px;font-size:17px">${k}</span><span style="flex:1;background:#fffaf0;border:1px solid #d9b98a;border-radius:8px;padding:3px 8px;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v}</span></div>`;
   box.innerHTML=row('방 이름',esc(cfg.roomName||'영어 모험대'))+row('방 코드',`<b style="font-weight:normal;color:#1d4fa8;font-size:18px;letter-spacing:2px">${esc(ME.room||'-')}</b>`)+row('단원',st.units.map(u=>u+'단원 '+UNIT_INFO[u].t).join(', '))+row('게임 모드',cfg.teamMode?'팀 대항전':'개인전')+row('연결',Sync.online()?'🌐 온라인':'📱 이 기기')
    +`<div style="margin-top:6px;background:linear-gradient(#6b4a22,#4a3012);color:#fff3cf;border-radius:8px;padding:3px 10px;font-size:18px">참가자 (${all.length})</div>
-   <div class="scroll" style="height:${178*WS}px;margin-top:4px">${all.map(([id,p],i)=>{const ready=p.ready||p.state==='playing'||p.state==='done';return `<div style="display:flex;align-items:center;gap:6px;padding:3px 2px;border-bottom:1px dashed #d9b98a"><span style="width:22px;text-align:center;font-size:16px;color:#c2451c">${i+1}</span><img src="${faceImg(CLASSES[p.cls]?p.cls:'warrior')}" style="width:30px;height:30px;border-radius:50%;background:${(CLS_BG[p.cls]||CLS_BG.warrior)[0]}"><span style="flex:1;font-size:16px;white-space:nowrap;overflow:hidden">${esc(p.name||'?')}${id===me?' (나)':''}</span><span style="font-size:12px;color:#fff;border-radius:10px;padding:1px 8px;background:${p.state==='playing'?'#2f6ee0':ready?'#2a9a3a':'#7d8599'}">${p.state==='playing'?'게임 중':p.state==='done'?'완료':ready?'준비 완료':'준비 중'}</span></div>`;}).join('')}</div>`;
+   <div class="scroll" style="height:${178*WSY}px;margin-top:4px">${all.map(([id,p],i)=>{const ready=p.ready||p.state==='playing'||p.state==='done';return `<div style="display:flex;align-items:center;gap:6px;padding:3px 2px;border-bottom:1px dashed #d9b98a"><span style="width:22px;text-align:center;font-size:16px;color:#c2451c">${i+1}</span><img src="${faceImg(CLASSES[p.cls]?p.cls:'warrior')}" style="width:30px;height:30px;border-radius:50%;background:${(CLS_BG[p.cls]||CLS_BG.warrior)[0]}"><span style="flex:1;font-size:16px;white-space:nowrap;overflow:hidden">${esc(p.name||'?')}${id===me?' (나)':''}</span><span style="font-size:12px;color:#fff;border-radius:10px;padding:1px 8px;background:${p.state==='playing'?'#2f6ee0':ready?'#2a9a3a':'#7d8599'}">${p.state==='playing'?'게임 중':p.state==='done'?'완료':ready?'준비 완료':'준비 중'}</span></div>`;}).join('')}</div>`;
 }
 function drawWaitingInfo(){
-  const box=$('#wInfo');if(!box)return;const cfg=ME.cfg;const st=S.settings;
+  const box=$('#wInfo');if(!box){drawRoomPanel();drawStartTag();return;}const cfg=ME.cfg;const st=S.settings;
   box.innerHTML=`<div style="display:flex;gap:12px;height:100%">
    <div style="flex:0 0 250px;border-radius:14px;background:linear-gradient(#24418a,#132a62);border:3px solid #ecc469;box-shadow:0 0 0 2px #6d4b12;color:#fff3cf;padding:8px 14px"><div style="font-size:17px">🏫 방 코드</div><div style="font-size:44px;letter-spacing:6px;color:#ffd84a;line-height:1.1">${esc(ME.room||'-')}</div><div style="font-size:13px;color:#bcd4ff">${Sync.online()?'🌐 선생님과 실시간 연결됨':Sync.cfgOn?'⏳ 연결하는 중…':'📱 이 기기에서 플레이'}</div></div>
    <div style="flex:1;border-radius:14px;background:rgba(20,12,6,.75);border:3px solid #ecc469;box-shadow:0 0 0 2px #6d4b12;padding:8px 14px;display:flex;align-items:center;gap:12px">
