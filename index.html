@@ -1562,24 +1562,24 @@ function waitList(){const me=Sync.pid,all=Object.entries(ME.players||{});
 function drawWaitingPlayers(){
   const box=$('#wSlots');if(!box)return;const all=waitList();const me=Sync.pid;const teams=(ME.cfg&&ME.cfg.teams)||{};
   const NUMC=['#d83a2e','#2f6ee0','#2a9a3a','#e3a21e','#7b3fd1'];
-  let h='';
-  for(let i=0;i<5;i++){const x=(30+i*201)*WS,y=228*WSY,w=190*WS;const e=all[i];
-    if(!e){h+=`<div class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:${352*WSY}px;border-radius:16px;background:linear-gradient(#3a2414,#22140a);border:3px dashed #ecc469;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff3cf;font-size:22px;text-align:center"><div style="font-size:60px;line-height:1">＋</div>친구를<br>기다려요</div>`;continue;}
+  let h=`<div class="abs" style="left:18px;top:274px;width:1222px;height:436px;border-radius:20px;background:linear-gradient(#4a2e16,#2a180b);border:4px solid #c9a24e;box-shadow:0 0 0 3px #5a3a12,inset 0 0 40px rgba(0,0,0,.55),0 10px 18px rgba(0,0,0,.5)"></div>`;
+  for(let i=0;i<5;i++){const x=(30+i*201)*WS,y=310,w=190*WS;const e=all[i];
+    if(!e){h+=`<div class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:360px;border-radius:16px;background:linear-gradient(#3a2414,#22140a);border:3px dashed #ecc469;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff3cf;font-size:22px;text-align:center"><div style="font-size:60px;line-height:1">＋</div>친구를<br>기다려요</div>`;continue;}
     const [id,p]=e;const cls=CLASSES[p.cls]?p.cls:'warrior';const isMe=id===me;const ready=p.ready||p.state==='playing'||p.state==='done';
     const stText=p.state==='playing'?`게임 중 · ${p.round||1}R`:p.state==='done'?'게임 완료':ready?'준비 완료':'준비 중';
     const emoOn=p.emo&&Date.now()-(p.emoAt||0)<12000;const em=EMOS.find(x=>x[1]===p.emo);
-    h+=`<div class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:${350*WSY}px">
-      <div style="position:absolute;left:0;right:0;top:0;height:${272*WSY}px;border-radius:16px 16px 0 0;background:radial-gradient(circle at 50% 38%,${CLS_BG[cls][0]},${CLS_BG[cls][1]});border:3px solid ${isMe?'#fff7c2':'#ecc469'};box-shadow:${isMe?'0 0 0 3px #ffd84a,0 0 24px 8px rgba(255,214,74,.7)':'0 0 0 2px #6d4b12'};overflow:hidden">
+    h+=`<div class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:360px">
+      <div style="position:absolute;left:0;right:0;top:0;height:272px;border-radius:16px 16px 0 0;background:radial-gradient(circle at 50% 38%,${CLS_BG[cls][0]},${CLS_BG[cls][1]});border:3px solid ${isMe?'#fff7c2':'#ecc469'};box-shadow:${isMe?'0 0 0 3px #ffd84a,0 0 24px 8px rgba(255,214,74,.7)':'0 0 0 2px #6d4b12'};overflow:hidden">
         <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.3),transparent 50%)"></div>
-        <img src="${charImg(cls)}" style="position:absolute;left:6px;top:8px;width:calc(100% - 12px);height:calc(100% - 10px);object-fit:contain;object-position:50% 100%;filter:drop-shadow(0 8px 6px rgba(0,0,0,.45));animation:idle ${1.4+i*.15}s ease-in-out infinite alternate">
+        <img src="${charImg(cls)}" style="position:absolute;left:10px;top:12px;width:calc(100% - 20px);height:calc(100% - 46px);object-fit:contain;object-position:50% 100%;filter:drop-shadow(0 8px 6px rgba(0,0,0,.45));animation:idle ${1.4+i*.15}s ease-in-out infinite alternate">
         ${teams[id]?`<div style="position:absolute;right:6px;top:6px;background:${teams[id]==='A'?'#d83a2e':teams[id]==='B'?'#2f6ee0':teams[id]==='C'?'#2a9a3a':'#7b3fd1'};color:#fff;border:2px solid #fff;border-radius:8px;padding:0 8px;font-size:16px">팀 ${teams[id]}</div>`:''}</div>
-      <div style="position:absolute;left:-4px;right:-4px;top:${268*WSY}px;height:${78*WSY}px;border-radius:12px;background:linear-gradient(#1b2f63,#0c1838);border:3px solid #c9a24e;box-shadow:0 0 0 2px #4a3212,0 6px 10px rgba(0,0,0,.5)">
+      <div style="position:absolute;left:-4px;right:-4px;top:268px;height:86px;border-radius:12px;background:linear-gradient(#1b2f63,#0c1838);border:3px solid #c9a24e;box-shadow:0 0 0 2px #4a3212,0 6px 10px rgba(0,0,0,.5)">
         <div style="position:absolute;left:8px;top:7px;width:34px;height:34px;border-radius:9px;background:linear-gradient(${NUMC[i]},#000 160%);border:2px solid #f0c967;color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center">${i+1}</div>
         <div style="position:absolute;left:48px;right:6px;top:4px;color:#fff;font-size:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.name||'?')}${isMe?' <span style="color:#ffd84a;font-size:16px">(나)</span>':''}</div>
         <div style="position:absolute;left:48px;top:40px;font-size:16px;color:${ready?'#9dff8a':'#c9d3ee'}">${ready?'✅':'⚪'} ${stText}</div></div>
       ${emoOn?`<div style="position:absolute;left:50%;top:-34px;transform:translateX(-50%);white-space:nowrap;background:#fff;color:#2e1f10;border:3px solid #2e1f10;border-radius:18px;padding:4px 14px;font-size:20px;box-shadow:0 4px 0 rgba(0,0,0,.3);z-index:3">${em?em[0]+' ':''}${esc(p.emo)}</div>`:''}</div>`;}
   const more=all.length-5;
-  h+=`<div class="abs" style="${WQ(1036,374,140,182)};border-radius:16px;background:linear-gradient(#3a2414,#22140a);border:3px dashed #ecc469;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff3cf;text-align:center;font-size:20px"><img src="${A.ic_group}" style="width:70px">${more>0?`<b style="font-weight:normal;font-size:30px;color:#ffd84a">+${more}명</b>더 있어요`:`${all.length}명 접속`}</div>`;
+  h+=`<div class="abs" style="left:${1036*WS}px;top:400px;width:${140*WS}px;height:180px;border-radius:16px;background:linear-gradient(#3a2414,#22140a);border:3px dashed #ecc469;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff3cf;text-align:center;font-size:20px"><img src="${A.ic_group}" style="width:70px">${more>0?`<b style="font-weight:normal;font-size:30px;color:#ffd84a">+${more}명</b>더 있어요`:`${all.length}명 접속`}</div>`;
   box.innerHTML=h;drawRoomPanel();drawStartTag();
 }
 function drawRoomPanel(){
