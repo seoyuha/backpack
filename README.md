@@ -18,4 +18,4 @@
 ## 태블릿끼리 연결 (Firebase)
 `index.html` 안의 `const FIREBASE_CONFIG=null;`을 Firebase 웹 앱 설정값으로 바꾸면 교사 화면과 학생 태블릿이 방 코드로 연결돼요.
 Realtime Database 규칙 예: `{ "rules": { "ebb": { ".read": true, ".write": true } } }`
-설정 전에는 각 태블릿에서 혼자 플레이(같은 브라우저 안에서만 연결)돼요.
+현재 Firebase 프로젝트 backpack-battle-3732d(싱가포르)에 연결돼 있어요. 규칙은 ebb 칸만 읽기·쓰기를 허용해요.

@@ -1395,7 +1395,7 @@ const BAR={"tstart": 2.538, "tpause": 2.212, "treset": 2.462, "tresults": 2.525,
 /* ================= 온라인 동기화 =================
    Firebase 실시간 데이터베이스 설정값을 아래 FIREBASE_CONFIG에 넣으면
    교사 화면과 학생 태블릿이 인터넷으로 연결돼요. 비워 두면(null) 같은 기기 안에서만 동작해요. */
-const FIREBASE_CONFIG=null;
+const FIREBASE_CONFIG={apiKey:"AIzaSyDhItK9pxjIuNitXnwscS_WDbFeiz-m76w",authDomain:"backpack-battle-3732d.firebaseapp.com",databaseURL:"https://backpack-battle-3732d-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"backpack-battle-3732d",storageBucket:"backpack-battle-3732d.firebasestorage.app",messagingSenderId:"591278451523",appId:"1:591278451523:web:3a8a31ebbc581f90df9df6"};
 const SYNC_FIELDS=['units','level','rounds','hearts','quiz','reward','diff','mission','tts','mTime','events'];
 const Sync={mode:'local',db:null,cfgOn:false,pid:null,room:null,_cb:null,unsubs:[],
   init(){
