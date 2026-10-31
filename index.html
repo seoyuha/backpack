@@ -1543,12 +1543,12 @@ function showWaiting(){
   <div class="hot" id="wHow" style="${WQ(1102,12,80,82)}"></div><div class="hot" id="wRank" style="${WQ(1208,12,82,82)}"></div><div class="hot" id="wDex" style="${WQ(1318,12,82,82)}"></div><div class="hot" id="wLobby" style="${WQ(1427,12,82,82)}"></div>
   <div class="hot" id="wChar" style="${WQ(92,618,118,98)}"></div><div class="hot" id="wBag" style="${WQ(226,622,118,94)}"></div><div class="hot" id="wEmo" style="${WQ(358,630,114,86)}"></div>
   <div class="hot" id="wStart" style="${WQ(494,614,374,110)};border-radius:28px"></div><div id="wStartTag" class="abs" style="left:${494*WS}px;width:${374*WS}px;top:${580*WS}px;text-align:center;pointer-events:none"></div>
-  <div class="hot" id="wTeacher" style="${WQ(888,634,168,80)}"></div><div class="hot" id="wSet" style="${WQ(1068,644,156,66)}"></div>
+  <div class="abs" id="wCodeTag" style="${WQ(884,628,178,92)};border-radius:14px;background:linear-gradient(#24418a,#0f2050);border:3px solid #ecc469;box-shadow:0 0 0 2px #6d4b12,0 6px 10px rgba(0,0,0,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff3cf;cursor:pointer"><div style="font-size:15px;line-height:1">🏫 우리 방 코드</div><div class="hd" style="font-size:40px;line-height:1.05;color:#ffd84a;letter-spacing:4px">${esc(ME.room||'-')}</div></div><div class="hot" id="wSet" style="${WQ(1068,644,156,66)}"></div>
   <div id="wInfo" class="abs" style="left:16px;right:16px;top:778px;height:110px"></div>`;
   const on=(id,f)=>{$('#'+id).onclick=()=>{snd('tap');f();};};
   on('wHow',showHowto);on('wRank',showRanking);on('wDex',()=>{Sync.unwatch();ME.room=null;showDex();});on('wLobby',()=>{Sync.unwatch();ME.room=null;ME.state=null;showTitle();});
   on('wChar',()=>showStudentSelect());on('wBag',showBagPreview);on('wEmo',showEmoPicker);on('wSet',showStudentSettings);
-  on('wTeacher',()=>confirmBox('교사 모드는 <b>선생님만</b> 들어가요.<br>교사 화면으로 갈까요?',()=>{Sync.unwatch();ME.room=null;showTeacher();},'교사 모드'));
+  $('#wCodeTag').onclick=()=>{snd('tap');$('#wCopy').click();};
   on('wCopy',()=>{const t=ME.room||'';try{navigator.clipboard.writeText(t).then(()=>toast(`방 코드 <b>${t}</b> 복사했어요`),()=>toast(`방 코드는 <b>${t}</b>예요`));}catch(e){toast(`방 코드는 <b>${t}</b>예요`);}});
   $('#wStart').onclick=()=>{const free=!(ME.cfg&&ME.cfg.startMode==='teacher'&&Sync.online());
     if(free||!ME.cfg){snd('ok');startFromWaiting();return;}
